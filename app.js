@@ -29,12 +29,13 @@ dotenv.config({ path: '.env' });
 /**
  * Controllers (route handlers).
  */
-const authController = require('./app/controllers/auth');
+const authController = require('./app/controllers/authController');
+const accountController = require('./app/controllers/accountController');
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+const jwtMiddleware = require('./app/middlewares/jwtMiddleware');
 
 /**
  * Create Express server.
@@ -107,21 +108,24 @@ app.use('/js/lib', express.static(path.join(__dirname, 'node_modules/bootstrap/d
  * Primary app routes.
  */
 
-app.post('/login', authController.postLogin);
+app.post('/login', authController.postLogin,
+    [
+      check('email').isEmail().trim().escape(),
+      check('password').isLength({ min: 6 }).trim().escape(),
+    ]);
+app.post('/register',
+    [
+      check('email').isEmail().trim().escape(),
+      check('password').isLength({ min: 6 }).trim().escape(),
+      check('confirm_password').isLength({ min: 6 }).trim().escape(),
+      check('name').isLength({ min: 3 }).trim().escape(),
+    ],
+    authController.postRegister);
 
 /**
  * User's routes.
  */
-// app.get('/users', passportConfig.isAuthenticated, userController.getUsers);
-
-// /**
-//  * Post's routes.
-//  */
-// app.get('/user/:userId/post', passportConfig.isAuthenticated, postController.index);
-// app.post('/user/:userId/post',[
-//     check('title').isLength({ min: 3 }).trim().escape(),
-//     check('description').isLength({ min: 3 }).trim().escape(),
-// ], passportConfig.isAuthenticated, postController.create);
+app.get('/account', (req, res, next) => authController(req, res, next), accountController.index);
 
 
 /**

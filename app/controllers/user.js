@@ -227,7 +227,7 @@ exports.getOauthUnlink = (req, res, next) => {
     user[provider.toLowerCase()] = undefined;
     const tokensWithoutProviderToUnlink = user.tokens.filter(token =>
         token.kind !== provider.toLowerCase());
-    // Some auth providers do not provide an email address in the user profile.
+    // Some authService providers do not provide an email address in the user profile.
     // As a result, we need to verify that unlinking the provider is safe by ensuring
     // that another login method exists.
     if (

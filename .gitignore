@@ -55,3 +55,5 @@ Thumbs.db
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+/app/services/authService/node_js_raspberry_pi.pem
+/app/services/authService/node_js_raspberry_pi.pub

@@ -51,6 +51,7 @@
     "popper.js": "^1.15.0",
     "pug": "^2.0.3",
     "request": "^2.88.0",
+    "rest-api-response": "^0.7.83",
     "tumblr.js": "^2.0.2",
     "validator": "^11.0.0"
   },
